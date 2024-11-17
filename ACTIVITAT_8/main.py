@@ -25,9 +25,8 @@ async def main():
     return "Main"
 
 
-@app.get("/items/{item_id}", status_code=400)
+@app.get("/items/{item_id}")
 async def read_item(item_id: int):
-    return {"item": item_id}
-
-    # if item_id not in items:
-    #     raise HTTPException(status_code=400, detail="Error de cliente")
+    if item_id not in items:
+        raise HTTPException(status_code=400, detail="Error de cliente")
+    return {"item": items[item_id]}
