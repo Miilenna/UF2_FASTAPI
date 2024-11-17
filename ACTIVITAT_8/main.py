@@ -1,7 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional
-from fastapi import HTTPException
+
 app = FastAPI()
 
 class Item(BaseModel):
@@ -10,16 +9,25 @@ class Item(BaseModel):
     price: float
     tax: float
     category: str
-    discount: Optional[float] = None
+    discount: float | None = None
     
-items = {"milena": "Milena vardumyan"}
+items = {
+    1: {"name": "Item One", "price": 10.0},
+    2: {"name": "Item Two", "price": 20.0},
+}
 
 @app.post("/items/")
 async def create_item(item: Item):
     return item
 
-@app.get("/items/{item_id}", status_code=204)
+@app.get("/")
+async def main():
+    return "Main"
+
+
+@app.get("/items/{item_id}", status_code=400)
 async def read_item(item_id: int):
-    if item_id not in items:
-        raise HTTPException(status_code=204, detail="No content")
-    return {"item_id": item_id}
+    return {"item": item_id}
+
+    # if item_id not in items:
+    #     raise HTTPException(status_code=400, detail="Error de cliente")
