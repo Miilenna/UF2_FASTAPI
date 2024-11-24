@@ -1,7 +1,7 @@
 def user_schema(user) -> dict:
     return {"Id": user[0],
             "nom": user[1],
-            "cognom": user[2]
+            "cognom": user[2],
             }
 
 def users_schema(users) -> dict:
