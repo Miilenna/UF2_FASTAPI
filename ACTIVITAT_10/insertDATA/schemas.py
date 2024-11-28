@@ -1,9 +1,7 @@
 # Funció per transformar un únic usuari en un diccionari
-def word_schema(paraula) -> dict:
-    return {"word": paraula[0],
-            "theme": paraula[1],
-            }
+def word_schema(paraula) -> list:
+    return [{"option":paraula}]
 
 # Funció per transformar una llista d'usuaris en una llista de diccionaris
-def word_schema(paraules) -> dict:
-    return [word_schema(paraula) for paraula in paraules]
+def theme_schema(tematiques) -> dict:
+    return [{"option": tematica[0]} for tematica in tematiques]
