@@ -1,6 +1,8 @@
+# Imports
 import random
 import psycopg2
 
+# Función para establecer una conexión con la base de datos PostgreSQL
 def connect_db():
     return psycopg2.connect(
         database = "postgres",
@@ -10,11 +12,11 @@ def connect_db():
         port = "5432"
     )
 
+# Función para insertar datos de un archivo CSV en la tabla 'paraules'
 def insert_data_csv_to_db(pos, data):
 
-    # Estableix la connexió amb la base de dades PostgreSQL
     conn = connect_db()
-    cur = conn.cursor() #Crea un cursor per executar les consultes
+    cur = conn.cursor() 
     
     sql = "INSERT INTO paraules (word, theme) VALUES (%s, %s);"
     values = ((data.get("WORD")[pos], data.get("THEME")[pos]))
@@ -26,6 +28,7 @@ def insert_data_csv_to_db(pos, data):
     
     return {"Message":"Data inserted"}
 
+# Función para obtener todas las temáticas únicas de la tabla 'paraules'
 def get_theme():
     conn = connect_db()
     cur = conn.cursor()
@@ -38,6 +41,7 @@ def get_theme():
     
     return themes
 
+# Función para obtener una palabra aleatoria de una temática específica
 def get_random_paraula(tematica: str):
     conn = connect_db()
     cur = conn.cursor()

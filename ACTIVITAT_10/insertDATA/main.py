@@ -1,9 +1,11 @@
+# Imports
 import pandas as pd
 from typing import List
 from fastapi import FastAPI, HTTPException
 import connection
 from schemas import theme_schema, word_schema
 
+# Función que convierte un archivo CSV en un diccionario de listas
 def csv_to_json():
     df = pd.read_csv("paraules_temàtica_penjat.csv")
     d = df.to_dict(orient='list')
@@ -16,6 +18,7 @@ for i in range(500):
     
 app = FastAPI()
 
+# Endpoint para obtener las opciones de temáticas
 @app.get("/penjat/tematica/opcions", response_model=List[dict])
 async def get_theme():
     themes = connection.get_theme()
@@ -23,6 +26,7 @@ async def get_theme():
         raise HTTPException(status_code=404, detail="No s'han trobat la temàtiques")
     return theme_schema(themes)
 
+# Endpoint para obtener una palabra aleatoria dada una temática
 @app.get("/penjat/tematica/{option}", response_model=List[dict])
 async def get_random_paraula(option: str):
     word = connection.get_random_paraula(option)
