@@ -39,11 +39,6 @@ def lletres(option: str):
 # 4.1
 @app.put("/update_abecedari", response_model=dict)
 def update_lletres(option: str, noves_lletres: str):
-    """
-    Actualiza el abecedario del idioma especificado.
-    - option: Idioma ('catala' o 'castellano').
-    - noves_lletres: Nueva cadena de letras para el abecedario.
-    """
     try:
         # Llama a la función para actualizar el abecedario
         read.update_abecedari(option, noves_lletres)
