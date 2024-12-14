@@ -53,29 +53,10 @@ def get_abecedari(idioma):
         cur.execute("SELECT lletres FROM alfabet WHERE idioma = 'catala' and id_alfabet=2;")
     else:
         cur.execute("SELECT lletres FROM alfabet WHERE idioma = 'castellano' and id_alfabet=1;")
-        
+    
     abecedari = cur.fetchall()
     
     cur.close()
     conn.close()
     
     return abecedari    
-
-def update_abecedari(idioma, noves_lletres):
-    conn = connexio()
-    cur = conn.cursor()
-    
-    if idioma == "catala":
-        cur.execute(
-            "UPDATE alfabet SET lletres = %s WHERE idioma = 'catala' AND id_alfabet = 2;",
-            (noves_lletres,)
-        )
-    elif idioma == "castellano":
-        cur.execute(
-            "UPDATE alfabet SET lletres = %s WHERE idioma = 'castellano' AND id_alfabet = 1;",
-            (noves_lletres,)
-        )
-    
-    conn.commit()
-    cur.close()
-    conn.close()

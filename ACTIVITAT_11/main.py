@@ -10,7 +10,7 @@ app = FastAPI()
 async def get_start():
     text = read.get_start()
     if not text:
-        raise HTTPException(status_code=404, detail="No s'han trobat la paraula")
+        raise HTTPException(status_code=404, detail="No s'han trobat")
     return word_schema(text)
 # 2
 @app.get("/començar/paraula", response_model=List[dict])
@@ -32,20 +32,8 @@ def intents():
 @app.get("/abecedari", response_model=List[dict])
 def lletres(option: str):
     lletres = read.get_abecedari(option)
+    if option not in ["catala", "castellano"]:
+        raise HTTPException(status_code=404, detail=f"No s'han trobat l'abecedari de l'idioma {option}")
     if not lletres: 
         raise HTTPException(status_code=404, detail="No s'han trobat l'abecedari")
     return word_schema(lletres)
-
-# 4.1
-@app.put("/update_abecedari", response_model=dict)
-def update_lletres(option: str, noves_lletres: str):
-    try:
-        # Llama a la función para actualizar el abecedario
-        read.update_abecedari(option, noves_lletres)
-        return {"message": f"L'abecedari en {option} s'ha actualitzat correctament."}
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-    except Exception as e:
-        raise HTTPException(status_code=500, detail="Error intern del servidor.")
-
-
