@@ -1,5 +1,4 @@
 # Imports
-import random
 import psycopg2
 
 # Función para establecer una conexión con la base de datos PostgreSQL
