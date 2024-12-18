@@ -1,7 +1,8 @@
 from typing import List
 from fastapi import FastAPI, HTTPException
-import connexio
-import ACTIVITAT_12.CRUD.read as read
+from connexio import connexio
+import CRUD.read as read
+import CRUD.update as update
 from schemas import word_schema, paraula_schema
 app = FastAPI()
 
@@ -37,4 +38,26 @@ def lletres(option: str):
         raise HTTPException(status_code=404, detail=f"No s'han trobat l'abecedari de l'idioma {option}")
     if not lletres: 
         raise HTTPException(status_code=404, detail="No s'han trobat l'abecedari")
+    return word_schema(lletres)
+
+#----------------------------------PUT-------------------------------------------
+@app.put("/començar_update", response_model=List[dict])
+async def update_start(option: str):
+    text = update.update_començar(option)
+    if not text:
+        raise HTTPException(status_code=404, detail="No s'ha pogut fer el update")
+    return word_schema(text)
+
+@app.put("/començar_update_paraula", response_model=List[dict])
+async def update_start_paraula():
+    text = update.update_començar_paraula()
+    if not text:
+        raise HTTPException(status_code=404, detail="No s'ha pogut fer el update")
+    return word_schema(text)
+
+@app.put("/abecedari_update", response_model=List[dict])
+def lletres_update(option: str):
+    lletres = update.update_abecedari(option)
+    if not lletres: 
+        raise HTTPException(status_code=404, detail="No s'han trobat l'abecedari per fer update")
     return word_schema(lletres)
